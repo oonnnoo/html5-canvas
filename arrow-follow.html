@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ball</title>
+</head>
+
+<body>
+  <div>箭头鼠标跟随</div>
+  <div>
+    根据鼠标的位置移动箭头，并使其始终跟随光标的移动。
+    <br>
+    运动速度通过角速度计算
+  </div>
+  <canvas id="canvas" height="400" width="400" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./arrow.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var mouse = utils.captureMouse(canvas)
+      var arrow = new Arrow()
+      var speed = 3;
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var dx = mouse.x - arrow.x;
+        var dy = mouse.y - arrow.y;
+        var angle = Math.atan2(dy, dx); //radians
+        var vx = Math.cos(angle) * speed;
+        var vy = Math.sin(angle) * speed;
+        arrow.rotation = angle;
+        arrow.x += vx;
+        arrow.y += vy;
+
+        arrow.draw(context)
+      }())
+    }
+  </script>
+</body>
+
+</html>

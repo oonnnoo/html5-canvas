@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ball</title>
+</head>
+
+<body>
+  <div>速度向量</div>
+  <div>设置x轴上的速度vx=1</div>
+  <canvas id="canvas" height="400" width="400" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball(),
+        vx = 1;
+        ball.x = 50;
+        ball.y =100;
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        ball.x += vx
+
+        ball.draw(context)
+      }())
+    }
+  </script>
+</body>
+
+</html>

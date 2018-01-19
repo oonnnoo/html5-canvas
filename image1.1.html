@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>gradient</title>
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+    </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <!-- <script src="ulit.js"></script> -->
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        image = new Image();
+
+        image.src= "https://file.oonnnoo.com/assets/images/shoes-2569494_1920.jpg"
+        image.onload = function(){
+          // drawImage(image,dx,dy,dw,dh) 将图片按照dw，dh的值设置图片宽度和高度，将其绘制到（dx,dy）坐标
+          context.drawImage(image,0,0,100,100);
+        }
+
+
+    }
+  </script>
+</body>
+
+</html>

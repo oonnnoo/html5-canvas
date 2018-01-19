@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ball</title>
+</head>
+
+<body>
+  <div>速度向量 - 角速度</div>
+  <div>通过Math.cos和Math.sin计算出vx与vy的值</div>
+  <pre>
+    角度转换弧度
+    45度转弧度：45/180  (1弧度等于180度)
+    通过速度（斜边），计算直角边长度
+    vx = Math.cos(radians) * speed,
+    vy = Math.sin(radians) * speed;
+  </pre>
+  <canvas id="canvas" height="400" width="400" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball();
+      // var vx = 3;
+      // var vy = 2;
+      var angle = 45;
+      var speed = 1;
+      ball.x = 50;
+      ball.y = 100;
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var radians = angle * Math.PI / 180,
+          vx = Math.cos(radians) * speed,
+          vy = Math.sin(radians) * speed;
+        ball.x += vx
+        ball.y += vy
+        ball.draw(context)
+      }())
+    }
+  </script>
+</body>
+
+</html>

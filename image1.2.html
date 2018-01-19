@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>gradient</title>
+</head>
+
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <!-- <script src="ulit.js"></script> -->
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        image = new Image();
+
+        image.src= "https://file.oonnnoo.com/assets/images/shoes-2569494_1920.jpg"
+        image.onload = function(){
+          // drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh) 将图片裁剪到矩形区域（sx,sy,sw,sh）中，并缩放至（dh，dw），将其绘制到（dx,dy）坐标
+          context.drawImage(image,300,300,900,900,100,100,200,200);
+        }
+
+
+    }
+  </script>
+</body>
+
+</html>

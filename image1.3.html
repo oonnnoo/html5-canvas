@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>gradient</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #picture{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <img src="https://file.oonnnoo.com/expression/emoji/google/0.gif" id="picture">
+  <!-- <script src="ulit.js"></script> -->
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d');
+      // var image = new Image();
+      var image = document.getElementById('picture');
+
+      // image.src = "https://file.oonnnoo.com/expression/emoji/google/0.gif"
+      // image.onload = function () {
+        context.drawImage(image, 0, 0);
+      // }
+    }
+  </script>
+</body>
+
+</html>
