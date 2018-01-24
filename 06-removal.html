@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ball</title>
+</head>
+
+<body>
+  <div>超出边界移除物体</div>
+  <canvas id="canvas" height="400" width="400" style="border:1px solid #ff0000"></canvas>
+  <textarea id="log"></textarea>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var log = document.getElementById('log')
+      var balls = []
+      numBalls = 10
+
+      for (var ball, i = 0; i < numBalls; i++) {
+        ball = new Ball(20)
+        ball.id = "ball" + i;
+        ball.x = Math.random() * canvas.width;
+        ball.y = Math.random() * canvas.height;
+        ball.vx = Math.random() * 2 - 1
+        ball.vy = Math.random() * 2 - 1
+        balls.push(ball)
+      }
+
+      function draw(ball, pos) {
+        console.log(pos)
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // 如果小超出边界
+        if (ball.x - ball.radius > canvas.width ||
+          ball.x + ball.radius < 0 ||
+          ball.y - ball.radius > canvas.height ||
+          ball.y + ball.radius < 0) {
+          balls.splice(pos, 1); // 从数组删除小球 remove ball from array
+          if (balls.length > 0) {
+            log.value = "Removed " + ball.id
+          } else {
+            log.value = "All gone"
+          }
+        }
+        ball.draw(context)
+      }
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var i = balls.length;
+
+        while (i--) {
+          draw(balls[i], i)
+        }
+      }())
+    }
+  </script>
+</body>
+
+</html>

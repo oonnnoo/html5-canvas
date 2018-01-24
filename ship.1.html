@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ship</title>
+  <style>
+    #canvas {
+      background: #000000;
+      border: solid 1px #ff0000;
+    }
+  </style>
+</head>
+
+<body>
+  <div>屏幕环绕</div>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="utils.js"></script>
+  <script src="ship.js"></script>
+  <script>
+    var canvas = document.getElementById('canvas'),
+      context = canvas.getContext('2d'),
+      ship = new Ship(),
+      vr = 0,
+      vx = 0,
+      vy = 0,
+      // 推力
+      thrust = 0;
+    ship.x = canvas.width / 2;
+    ship.y = canvas.height / 2;
+    window.addEventListener('keydown', function (event) {
+      switch (event.keyCode) {
+        case 37:
+          vr = -3; // left
+          break;
+        case 39: // right
+          vr = 3;
+          break;
+        case 38: // up
+          thrust = 0.05;
+          ship.showFlame = true;
+          break;
+      }
+    }, false)
+    window.addEventListener('keyup', function () {
+      vr = 0;
+      thrust = 0;
+      ship.showFlame = false;
+    }, false);
+    (function drawFrame() {
+      window.requestAnimationFrame(drawFrame, canvas);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      ship.rotation += vr * Math.PI / 180;
+      var angle = ship.rotation; // 弧度
+      var ax = Math.cos(angle) * thrust;
+      var ay = Math.sin(angle) * thrust;
+      var left = 0;
+      var right = canvas.width;
+      var top = 0;
+      var bottom = canvas.height;
+
+      vx += ax;
+      vy += ay;
+      ship.x += vx;
+      ship.y += vy;
+
+      // 超出屏幕修改坐标
+      if (ship.x - ship.width / 2 > right) {
+        ship.x = left - ship.width/2
+      } else if (ship.x + ship.width / 2 < left) {
+        ship.x = right + ship.width / 2
+      }
+      if (ship.y - ship.height / 2 > right) {
+        ship.y = left - ship.height/2
+      } else if (ship.y + ship.height / 2 < left) {
+        ship.y = right + ship.height / 2
+      }
+
+      // console(ax)
+      ship.draw(context)
+    }())
+  </script>
+</body>
+
+</html>
