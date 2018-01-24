@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div>飞船动画 - 增加屏幕环绕</div>
+  <div>飞船动画 - 增加屏幕环绕 增加摩擦系数</div>
   <canvas id="canvas" width="400" height="400"></canvas>
   <script src="utils.js"></script>
   <script src="ship.js"></script>
@@ -28,6 +28,7 @@
       vy = 0,
       // 推力
       thrust = 0;
+      var friction = 0.97
     ship.x = canvas.width / 2;
     ship.y = canvas.height / 2;
     window.addEventListener('keydown', function (event) {
@@ -61,6 +62,9 @@
       var right = canvas.width;
       var top = 0;
       var bottom = canvas.height;
+
+      vx *= friction
+      vy *= friction
 
       vx += ax;
       vy += ay;

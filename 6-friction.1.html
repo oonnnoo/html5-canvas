@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>摩擦力</title>
+</head>
+
+<body>
+  <div>摩擦力</div>
+  <div>使用摩擦力系数，在每一帧中乘以这个系数从而减小速度。这一种方法的好处是速度向量永远不会变成负数</div>
+  <canvas id="canvas" height="400" width="900" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      var vx = Math.random() * 10 - 5
+      var vy = Math.random() * 10 - 5
+      // 摩擦力系数
+      var friction = 0.9;
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+        var speed = Math.sqrt(vx * vx + vy * vy);
+        var angle = Math.atan2(vy, vx);
+
+        // 乘以摩擦系数，减小速度
+        vx *= friction
+        vy *= friction
+
+        ball.x += vx
+        ball.y += vy
+        ball.draw(context)
+      }())
+    }
+  </script>
+</body>
+
+</html>
