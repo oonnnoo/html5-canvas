@@ -36,3 +36,13 @@ Ball.prototype.draw = function (context) {
   }
   context.restore()
 }
+
+// 返回刚好可以容纳小球的矩形，即小球的边界
+Ball.prototype.getBounds = function () {
+  return {
+    x: this.x - this.radius,
+    y: this.y - this.radius,
+    width: this.radius * 2,
+    height: this.radius * 2
+  }
+}
