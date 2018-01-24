@@ -21,7 +21,7 @@
       var context = canvas.getContext('2d')
       var log = document.getElementById('log')
       var balls = []
-      numBalls = 10
+      var numBalls = 10
 
       for (var ball, i = 0; i < numBalls; i++) {
         ball = new Ball(20)
@@ -34,7 +34,7 @@
       }
 
       function draw(ball, pos) {
-        console.log(pos)
+       console.log(pos)
         ball.x += ball.vx;
         ball.y += ball.vy;
         // 如果小超出边界

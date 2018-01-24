@@ -20,14 +20,17 @@
       var context = canvas.getContext('2d');
       var balls = [];
       var ball = new Ball()
-      vx = Math.random() * 10 - 5;
-      vy = Math.random() * 10 - 5;
-      ball.x = canvas.width / 2
-      ball.y = canvas.height / 2
+      var vx = Math.random() * 10 - 5
+      var vy = Math.random() * 10 - 5
+
       var left = 0;
       var right = canvas.width;
       var top = 0;
       var bottom = canvas.height;
+
+      ball.x = canvas.width / 2
+      ball.y = canvas.height / 2
+
       // 撞击能量损失系数
       var baunce = -0.7;
 

@@ -15,9 +15,9 @@ utils.captureMouse = function (element) {
     y: 0
   }
   element.addEventListener('mousemove', function (event) {
-    var x, y;
+    var x, y
     if (event.pageX || event.pageY) {
-      x = event.pageX;
+      x = event.pageX
       y = event.pageY
     } else {
       x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
@@ -25,8 +25,8 @@ utils.captureMouse = function (element) {
     }
     x -= element.offsetLeft
     y -= element.offsetTop
-    mouse.x = x;
-    mouse.y = y;
+    mouse.x = x
+    mouse.y = y
   })
   return mouse
 }
@@ -36,30 +36,29 @@ utils.captureTouch = function (element) {
     x: null,
     y: null,
     isPressed: false
-  };
+  }
   element.addEventListener('touchstart', function (event) {
-    touch.isPressed = true;
-
-  });
+    touch.isPressed = true
+  })
   element.addEventListener('touchend', function (event) {
     touch.isPressed = false
   })
   element.addEventListener('touchmove', function (event) {
-    var x, y, touch_event = event.touches[0];
-    if (touch_event.pageX || touch_event.pageY) {
-      x = touch_event.pageX
-      y = touch_event.pageY
+    var x
+    var y
+    var touchEvent = event.touches[0]
+    if (touchEvent.pageX || touchEvent.pageY) {
+      x = touchEvent.pageX
+      y = touchEvent.pageY
     } else {
-      x = touch_event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
-      y = touch_event.clientY + document.body.scrollTop + document.documentElement.scrollTop
+      x = touchEvent.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
+      y = touchEvent.clientY + document.body.scrollTop + document.documentElement.scrollTop
     }
     // console.log
     x -= element.offsetLeft
     y -= element.offsetTop
-    touch.x = x;
+    touch.x = x
     touch.y = y
   })
   return touch
 }
-
-
