@@ -54,7 +54,6 @@ utils.captureTouch = function (element) {
       x = touchEvent.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
       y = touchEvent.clientY + document.body.scrollTop + document.documentElement.scrollTop
     }
-    // console.log
     x -= element.offsetLeft
     y -= element.offsetTop
     touch.x = x
@@ -63,8 +62,11 @@ utils.captureTouch = function (element) {
   return touch
 }
 
-//
+// 返回坐标x,y，是否在rect区域中
 utils.containsPoint = function (rect, x, y) {
+  // console.log(rect)
+  // console.log(x)
+  // console.log(y)
   return !(x < rect.x || x > rect.x + rect.width ||
     y < rect.y || y > rect.y + rect.height)
 }

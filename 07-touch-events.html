@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>触摸事件</title>
+</head>
+
+<body>
+  <div>触摸事件</div>
+  <div>按下及释放物体</div>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+  <textarea id="log" cols="30" rows="10"></textarea>
+  <script src="utils.js"></script>
+  <script src="ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d')
+      // var mouse = utils.captureMouse(canvas)
+      var touch = utils.captureTouch(canvas)
+      var log = document.getElementById('log')
+      var ball = new Ball()
+
+      ball.x = canvas.width / 2
+      ball.y = canvas.height / 2
+      ball.draw(context)
+
+      canvas.addEventListener('touchstart', function (event) {
+        // 阻止了与触摸事件对应的鼠标事件
+        event.preventDefault()
+        console.log(touch)
+        // 检测触摸点坐标与小球的区域的坐标
+        if (utils.containsPoint(ball.getBounds(), touch.x, touch.y)) {
+          log.value = "in ball: touchstart"
+        } else {
+          log.value = "canvas: touchstart"
+        }
+      })
+      canvas.addEventListener('touchend', function (event) {
+        event.preventDefault()
+        console.log(touch)
+        // 检测触摸点坐标与小球的区域的坐标
+        if (utils.containsPoint(ball.getBounds(), touch.x, touch.y)) {
+          log.value = "in ball: touchend"
+        } else {
+          log.value = "canvas: touchend"
+        }
+      })
+      canvas.addEventListener('touchmove', function (event) {
+        event.preventDefault()
+        console.log(touch)
+        // 检测触摸点坐标与小球的区域的坐标
+        if (utils.containsPoint(ball.getBounds(), touch.x, touch.y)) {
+          log.value = "in ball: touchmove"
+        } else {
+          log.value = "canvas: touchmove"
+        }
+      })
+
+    }
+
+  </script>
+</body>
+
+</html>

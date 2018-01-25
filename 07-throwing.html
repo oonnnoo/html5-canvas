@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>投掷物体</title>
+</head>
+
+<body>
+  <h1>投掷物体</h1>
+  <div>在拖拽物体的过程中，计算物体的速度向量，并在释放物体的时候，将这个速度赋值给物体</div>
+  <div>如果以每帧10个像素速度，向左拖拽小球，那么释放小球时间，它的速度向量应该是 vx=-10</div>
+
+  <div>
+    通过
+    <pre>
+      旧的位置 + 速度向量 = 新的位置
+    </pre> 得到
+    <pre>
+      速度向量 = 新的位置 - 旧的位置
+    </pre>
+  </div>
+  <div>
+    在拖拽物体时，物体会在每一帧拥有一个新的位置。 用当前帧的位置加以上一帧的位置，就可以计算出这一帧所移动的距离，这就是每帧移动像素的速度向量值。
+  </div>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+  <script src="utils.js"></script>
+  <script src="ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d')
+      var mouse = utils.captureMouse(canvas)
+      // var touch = utils.captureTouch(canvas)
+      var log = document.getElementById('log')
+      var ball = new Ball()
+      var vx = Math.random() * 10 - 5
+      var vy = -10
+      // 反弹能量损失
+      var bounce = -0.7
+      // 重力系数
+      var gravity = 0.2
+      var isMouseDown = false
+      var oldX
+      var oldY
+
+      ball.x = canvas.width / 2
+      ball.y = canvas.height / 2
+
+      canvas.addEventListener('mousedown', function () {
+        isMouseDown = true
+        if (utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)) {
+          oldX = ball.x
+          oldY = ball.y
+          canvas.addEventListener('mouseup', onMouseUp, false)
+          canvas.addEventListener('mousemove', onMouseMove, false)
+        }
+      }, false);
+
+      function onMouseUp() {
+        isMouseDown = false
+        canvas.removeEventListener('mouseup', onMouseUp, false)
+        canvas.removeEventListener('mousemove', onMouseMove, false)
+      }
+
+      function onMouseMove(event) {
+        ball.x = mouse.x
+        ball.y = mouse.y
+      }
+      // 计算跟踪速度
+      function trackVelocity() {
+        vx = ball.x - oldX
+        vy = ball.y - oldY
+        oldX = ball.x
+        oldY = ball.y
+        console.log(oldX)
+        console.log(oldY)
+      }
+
+      function checkBoundaries() {
+        var left = 0
+        var right = canvas.width
+        var top = 0
+        var bottom = canvas.height
+        vy += gravity
+        ball.x += vx
+        ball.y += vy
+        // 检测边界，反弹速度
+        if (ball.x + ball.radius > right) {
+          ball.x = right - ball.radius;
+          vx *= bounce
+        } else if (ball.x - ball.radius < left) {
+          ball.x = left + ball.radius
+          vx *= bounce
+        }
+
+        if (ball.y + ball.radius > bottom) {
+          ball.y = bottom - ball.radius;
+          vy *= bounce
+        } else if (ball.y - ball.radius < top) {
+          ball.y = top + ball.radius
+          vy *= bounce
+        }
+      }
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas)
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        if (isMouseDown) {
+          trackVelocity()
+        } else {
+          checkBoundaries()
+        }
+        ball.draw(context)
+
+      }())
+    }
+
+  </script>
+</body>
+
+</html>
