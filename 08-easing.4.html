@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ball</title>
+</head>
+
+<body>
+  <div>缓动 - 箭头旋转</div>
+  <div>
+    更多缓动
+    <p>旋转</p>
+    <p>颜色</p>
+    <p>透明的</p>
+  </div>
+  <canvas id="canvas" height="400" width="400" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./arrow.js"></script>
+
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var mouse = utils.captureMouse(canvas)
+      var arrow = new Arrow()
+      var vx = 0
+      var vr = 2
+      var rotation = 90
+      var targerRotation = 360
+      var easing = 0.05
+
+
+      arrow.x = canvas.width / 2
+      arrow.y = canvas.height / 2
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        rotation += (targerRotation - rotation) * easing
+        // arrow.rotation += vr * Math.PI / 180; // to radians 转换称弧度
+        arrow.rotation = rotation * Math.PI / 180;
+
+        arrow.draw(context)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

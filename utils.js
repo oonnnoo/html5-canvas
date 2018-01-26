@@ -7,6 +7,14 @@ if (!window.requestAnimationFrame) {
     }
   )
 }
+
+if (!window.cancelAnimationFrame) {
+  window.cancelAnimationFrame = (window.webkitCancelAnimationFrame ||
+    window.mozCancelAnimationFrame ||
+    window.oCancelAnimationFrame ||
+    window.clearTimeout
+  )
+}
 var utils = {}
 // 计算鼠标的位置
 utils.captureMouse = function (element) {

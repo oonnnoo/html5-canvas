@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>缓动</title>
+</head>
+
+<body>
+  <div>缓动 - 停止缓动</div>
+  <div>因为缓动会涉及到芝诺悖论，每次取剩下距离的一半，这样剩下距离会无限细分，所以代码实现中是：当距离小于某个值的时候，即可认为运动到了目标点了。</div>
+  <div>通过 cancelAnimationFrame 移除渲染</div>
+
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+  <textarea id="log" cols="30" rows="10"></textarea>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var log = document.getElementById('log')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      var easing = 0.05
+      var targetX = canvas.width / 2
+      // var targetY = canvas.height / 2
+
+      var isMouseDown = false
+      var animRequest
+
+      ;
+      (function drawFrame() {
+        animRequest = window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        var dx = targetX - ball.x
+        // var dy = targetY - ball.y
+
+        if (Math.abs(dx) < 1) {
+          ball.x = targetX
+          window.cancelAnimationFrame(animRequest)
+          log.value = "Animation done"
+        } else {
+          var vx = dx * easing
+          // var vy = dy * easing
+          ball.x += vx;
+          // ball.y += vy;
+        }
+        ball.draw(context)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

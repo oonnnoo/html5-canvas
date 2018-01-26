@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>缓动</title>
+</head>
+
+<body>
+  <div>缓动 - 移动的目标点 - 跟随鼠标</div>
+  <div>计算小球与鼠标的距离，并计算缓动</div>
+
+  <canvas id="canvas" width="1000" height="600" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      var arrow = new Arrow()
+      var mouse = utils.captureMouse(canvas)
+      var easing = 0.05
+      var targetX = canvas.width / 2
+      var targetY = canvas.height / 2
+
+      var rotation = 90
+      var targetRotation = 270
+
+      var isMouseDown = false
+      var animRequest
+
+      ;
+      (function drawFrame() {
+        animRequest = window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+          var vx = (mouse.x -ball.x)* easing
+          var vy = (mouse.y -ball.y)* easing
+          ball.x += vx;
+          ball.y += vy;
+        // }
+        ball.draw(context)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

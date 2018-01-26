@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>缓动</title>
+</head>
+
+<body>
+  <div>缓动 - 结合鼠标拖动</div>
+  <div>鼠标拖动，小球缓动到中心位置（指定目标点）</div>
+
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      var mouse = utils.captureMouse(canvas)
+      // 缓动系数 速度除以距离可以得到这个系数
+      // 越接近0，运动速度越慢
+      // 越接近1，运动速度越快
+      var easing = 0.05
+      var targetX = canvas.width / 2
+      var targetY = canvas.height / 2
+      var isMouseDown = false
+
+      canvas.addEventListener('mousedown', function () {
+        isMouseDown = true
+        if (utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)) {
+          canvas.addEventListener('mouseup', onMouseUp, false)
+          canvas.addEventListener('mousemove', onMouseMove, false)
+        }
+      }, false)
+
+      function onMouseUp() {
+        isMouseDown = false
+        canvas.removeEventListener('mouseup', onMouseUp, false)
+        canvas.removeEventListener('mousemove', onMouseMove, false)
+      }
+
+      function onMouseMove() {
+        ball.x = mouse.x
+        ball.y = mouse.y
+      }
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        if (!isMouseDown) {
+          var vx = (targetX - ball.x) * easing
+          var vy = (targetY - ball.y) * easing
+          ball.x += vx;
+          ball.y += vy;
+        }
+        ball.draw(context)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

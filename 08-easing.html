@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>缓动</title>
+</head>
+
+<body>
+  <div>缓动</div>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+  <div>
+    <ul>
+      <li>1.为运动确定一个比例系数，大于0、小于1</li>
+      <li>2.确定目标点</li>
+      <li>3.计算物体与目标点的距离</li>
+      <li>4.计算速度，速度=距离*比例系数</li>
+      <li>5.用当前的位置加上速度来计算新的位置</li>
+      <li>6.重复3到5步，直到物体到达目标</li>
+
+    </ul>
+    <hr>
+    <pre>
+距离
+var dx = targetX - ball.x;
+var dy = targetY - ball.y;
+
+速度
+var vx = dx * easing;
+var vy = dy * easing;
+ball.x += vx
+ball.y += vy
+
+<h4>简化=></h4>
+
+vx = (targetX - ball.x)*easing
+vy = (targetY - ball.y)*easing
+ball.x += vx
+ball.y += vy
+
+<h4>再简化=></h4>
+
+ball.x +=  (targetX - ball.x) * easing
+ball.y +=  (targetY - ball.y) * easing
+</pre>
+
+<hr>
+
+<pre>
+缓动系数 速度除以距离可以得到这个系数，小于1、且大于0
+越接近0，运动速度越慢
+越接近1，运动速度越快
+</pre>
+
+  </div>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      // 缓动系数 速度除以距离可以得到这个系数
+      // 越接近0，运动速度越慢
+      // 越接近1，运动速度越快
+      var easing = 0.05
+      var targetX = canvas.width / 2
+      var targetY = canvas.height / 2
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        var vx = (targetX - ball.x) * easing
+        var vy = (targetY - ball.y) * easing
+        ball.x += vx
+        ball.y += vy
+        ball.draw(context)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>
