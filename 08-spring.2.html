@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>弹动</title>
+</head>
+
+<body>
+    <h2>二维弹动</h2>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+
+  <div>
+    <a href="./08-spring.html" target="_blank">一维弹动</a>
+    <div>相比一维弹动，将坐标扩展到(x，y) 即为二维弹动</div>
+  </div>
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      // 弹动系数
+      var spring = 0.03
+      // 弹动能量损失系数
+      var friction = 0.95
+      var targetX = canvas.width / 2
+      var targetY = canvas.height / 2
+      var vx = 0
+      var vy = 0
+      // ball.x = canvas.width / 2
+      // ball.y = canvas.height / 2
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        var dx = targetX - ball.x
+        var dy = targetY - ball.y
+        var ax = dx * spring
+        var ay = dy * spring
+        vx += ax
+        vy += ay
+        vx *= friction
+        vy *= friction
+        ball.x += vx;
+        ball.y += vy;
+        ball.draw(context)
+
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

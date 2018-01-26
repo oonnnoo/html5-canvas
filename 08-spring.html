@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>弹动</title>
+</head>
+
+<body>
+    <h2>一维弹动</h2>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #ff0000"></canvas>
+
+  <div>
+    <p>1.设置目标点（这里是画布中间）spring = 0.1, targetX = canvas.width / 2, vx =0</p>
+    <p>2.计算目标点与小球的距离 dx = targetX - ball.x</p>
+    <p>3.计算加速度 ax = dx * spring</p>
+
+    <div>
+      <p>随着小球靠近目标点，小球的速度越来越大，加速度越来越小。</p>
+      <p>超过目标点后，小球的反向加速度增大，速度减小</p>
+    </div>
+
+  </div>
+  <script src="utils.js"></script>
+  <script src="ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      // 弹动系数
+      var spring = 0.03
+      var targetX = canvas.width / 2
+      var vx = 0
+      ball.y = canvas.height / 2;
+
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        var dx = targetX - ball.x
+        var ax = dx * spring
+        vx += ax
+        ball.x += vx;
+        ball.draw(context)
+
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

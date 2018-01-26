@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>弹动</title>
+</head>
+
+<body>
+  <h2>弹动跟随鼠标</h2>
+  <div>添加连线</div>
+  <canvas id="canvas" width="600" height="600" style="border:1px solid #ff0000"></canvas>
+
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var ball = new Ball()
+      var mouse = utils.captureMouse(canvas)
+      // 弹动系数
+      var spring = 0.03
+      // 弹动能量损失系数
+      var friction = 0.95
+      // 重力系数
+      var grbavity = 1
+      var vx = 0
+      var vy = 0
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        var dx = mouse.x - ball.x
+        var dy = mouse.y - ball.y
+        var ax = dx * spring
+        var ay = dy * spring
+        vx += ax
+        vy += ay
+        vx *= friction
+        vy *= friction
+        vy += grbavity
+        ball.x += vx
+        ball.y += vy
+
+        context.beginPath()
+        // context.moveTo(ball.x, ball.y)
+        // context.lineTo(mouse.x, mouse.y)
+        context.moveTo(mouse.x, mouse.y)
+        context.lineTo(ball.x, ball.y)
+
+        context.stroke()
+
+        ball.draw(context)
+
+      }())
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>弹动</title>
+</head>
+
+<body>
+  <h2>弹动 - 链式弹动</h2>
+  <div>相比前一个：数组的形式(加大弹动系数)</div>
+  <canvas id="canvas" width="1000" height="600" style="border:1px solid #ff0000"></canvas>
+
+  <script src="./utils.js"></script>
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas')
+      var context = canvas.getContext('2d')
+      var mouse = utils.captureMouse(canvas)
+      // 弹动系数
+      var spring = 0.2
+      // 弹动能量损失系数
+      var friction = 0.9
+      // 重力系数
+      var grbavity = 6
+
+      var balls = []
+      var numBalls = 10
+      while (numBalls--) {
+        balls.push(new Ball(20))
+      }
+
+      function move(ball, targetX, targetY) {
+        ball.vx = (targetX - ball.x) * spring
+        ball.vy = (targetY - ball.y) * spring
+        ball.vy += grbavity;
+        ball.vx *= friction
+        ball.vy *= friction
+        ball.x += ball.vx
+        ball.y += ball.vy
+      }
+
+      function draw(ballB, i) {
+        if (i === 0) {
+          move(ballB, mouse.x, mouse.y);
+          context.moveTo(mouse.x, mouse.y)
+        } else {
+          var ballA = balls[i - 1]
+          move(ballB, ballA.x, ballA.y)
+          context.moveTo(ballA.x, ballA.y)
+        }
+        context.lineTo(ballB.x, ballB.y)
+        context.stroke()
+        ballB.draw(context)
+      }
+
+      ;
+      (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.beginPath()
+        balls.forEach(draw)
+      }())
+    }
+
+  </script>
+</body>
+
+</html>
