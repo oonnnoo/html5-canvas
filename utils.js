@@ -78,3 +78,11 @@ utils.containsPoint = function (rect, x, y) {
   return !(x < rect.x || x > rect.x + rect.width ||
     y < rect.y || y > rect.y + rect.height)
 }
+
+// 参数为两个矩形对象，如果两个矩相交，返回true，否则返回false
+utils.intersects = function (rectA, rectB) {
+  return !(rectA.x + rectA.width < rectB.x ||
+    rectB.x + rectB.width < rectA.x ||
+    rectA.y + rectA.height < rectB.y ||
+    rectA.y + rectB.height < rectA.y)
+}
